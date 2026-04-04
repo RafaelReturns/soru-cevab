@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Sənin üçün</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <style>
+    :root {
+      --bg1:#120d19; --bg2:#281426; --bg3:#08070d;
+      --card:rgba(255,255,255,.08); --card-border:rgba(255,255,255,.12);
+      --text:#fff; --muted:rgba(255,255,255,.72); --soft:rgba(255,255,255,.56);
+      --accent1:#ff7ab8; --accent2:#b28cff; --shadow:rgba(0,0,0,.35);
+    }
+    *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+    html,body{margin:0;min-height:100%;font-family:Inter,Arial,sans-serif;background:linear-gradient(135deg,var(--bg1),var(--bg2) 45%,var(--bg3));color:var(--text);transition:background .9s ease}
+    body{min-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:max(14px,env(safe-area-inset-top)) 14px max(14px,env(safe-area-inset-bottom)) 14px;position:relative}
+    .backdrop,.backdrop::before,.backdrop::after{position:fixed;inset:0;pointer-events:none}
+    .backdrop{background:radial-gradient(circle at 15% 18%, color-mix(in srgb, var(--accent1) 26%, transparent), transparent 28%),radial-gradient(circle at 84% 76%, color-mix(in srgb, var(--accent2) 22%, transparent), transparent 26%)}
+    .backdrop::before,.backdrop::after{content:"";filter:blur(80px);opacity:.52}
+    .backdrop::before{width:300px;height:300px;left:-70px;top:-55px;border-radius:50%;background:color-mix(in srgb,var(--accent1) 58%,transparent);animation:driftOne 14s ease-in-out infinite}
+    .backdrop::after{width:340px;height:340px;right:-90px;bottom:-90px;border-radius:50%;background:color-mix(in srgb,var(--accent2) 48%,transparent);animation:driftTwo 17s ease-in-out infinite}
+    @keyframes driftOne{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(24px,16px) scale(1.08)}}
+    @keyframes driftTwo{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-20px,-18px) scale(1.06)}}
+    .particles{position:fixed;inset:0;pointer-events:none;opacity:.16;background-image:radial-gradient(circle at 20% 30%, rgba(255,255,255,.9) 1px, transparent 1px),radial-gradient(circle at 80% 25%, rgba(255,255,255,.75) 1.1px, transparent 1.1px),radial-gradient(circle at 35% 80%, rgba(255,255,255,.8) 1px, transparent 1px),radial-gradient(circle at 70% 70%, rgba(255,255,255,.6) 1.3px, transparent 1.3px);background-size:220px 220px,280px 280px,240px 240px,320px 320px;animation:shimmer 18s linear infinite}
+    @keyframes shimmer{from{transform:translateY(0)}to{transform:translateY(-16px)}}
+
+    .shell{width:100%;max-width:430px;position:relative;z-index:3}
+    .card{min-height:min(92vh,820px);padding:18px;border-radius:28px;background:var(--card);border:1px solid var(--card-border);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);box-shadow:0 22px 70px var(--shadow);display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden;transition:opacity .45s ease,transform .45s ease,filter .35s ease}
+    .card::before{content:"";position:absolute;inset:0;background:linear-gradient(125deg,rgba(255,255,255,.07),transparent 35%,rgba(255,255,255,.025))}
+    .card.fade-out{opacity:0;transform:translateY(18px) scale(.986)}
+    .top,.hero,.content,.final,.footer{position:relative;z-index:2}
+    .top{display:flex;flex-direction:column;gap:12px;margin-bottom:18px}
+    .top-row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+    .badge{padding:9px 12px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.08);font-size:12px;color:rgba(255,255,255,.84)}
+    .progress{width:100%;height:7px;border-radius:999px;background:rgba(255,255,255,.08);overflow:hidden}
+    .progress span{display:block;height:100%;width:0;border-radius:inherit;background:linear-gradient(90deg,var(--accent1),var(--accent2));transition:width .4s ease}
+    .eyebrow{display:inline-flex;align-self:flex-start;padding:7px 10px;border-radius:999px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.08);color:rgba(255,255,255,.84);font-size:11px;letter-spacing:.16em;text-transform:uppercase;margin-bottom:14px}
+    h1,h2,p{margin:0} h1,h2{font-family:"Playfair Display",serif;line-height:1.08;letter-spacing:-.03em}
+    h1{font-size:clamp(32px,9vw,44px)} h2.question{font-size:clamp(28px,8vw,38px)}
+    .sub{margin-top:14px;line-height:1.75;color:var(--muted);font-size:14px}
+    .visual{margin:18px 0 6px;min-height:112px;border-radius:22px;border:1px solid rgba(255,255,255,.09);background:linear-gradient(135deg,rgba(255,255,255,.08),rgba(255,255,255,.03));display:flex;align-items:center;justify-content:center;font-size:56px;position:relative;overflow:hidden}
+    .visual::after{content:"";position:absolute;inset:-30%;background:radial-gradient(circle,rgba(255,255,255,.14),transparent 55%);animation:visualGlow 5s ease-in-out infinite}
+    @keyframes visualGlow{0%,100%{transform:scale(.9);opacity:.45}50%{transform:scale(1.08);opacity:.8}}
+    .options{display:grid;grid-template-columns:1fr;gap:11px;margin-top:18px}
+    .option{width:100%;text-align:left;padding:15px;border-radius:18px;border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.055);color:#fff;font:inherit;font-size:14px;cursor:pointer;transition:transform .18s ease,background .25s ease,box-shadow .25s ease}
+    .option:hover{transform:translateY(-1px);background:rgba(255,255,255,.08);box-shadow:0 8px 26px rgba(0,0,0,.18)}
+    .option.selected{background:color-mix(in srgb,var(--accent1) 16%,rgba(255,255,255,.055));border-color:color-mix(in srgb,var(--accent1) 48%,rgba(255,255,255,.16))}
+    textarea{margin-top:16px;width:100%;min-height:132px;resize:none;border-radius:20px;border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.06);color:#fff;padding:16px;font:inherit;font-size:14px}
+    textarea::placeholder{color:rgba(255,255,255,.38)}
+    .footer{display:flex;flex-direction:column;gap:12px;margin-top:18px}
+    .hint{color:var(--soft);font-size:12px;line-height:1.6}
+    .primary,.secondary{border:none;cursor:pointer;width:100%;font:inherit}
+    .primary{color:#fff;padding:15px;border-radius:18px;font-weight:700;background:linear-gradient(135deg,var(--accent1),var(--accent2));box-shadow:0 14px 30px rgba(0,0,0,.2)}
+    .secondary{color:rgba(255,255,255,.92);padding:14px;border-radius:18px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.08)}
+    .primary:disabled{opacity:.46;cursor:not-allowed}
+    .mail-state,.love-note{display:inline-flex;align-items:center;gap:8px;margin-top:14px;padding:10px 12px;border-radius:999px;font-size:12px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.08)}
+    .summary-box{margin-top:18px;padding:16px;border-radius:20px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);white-space:pre-line;max-height:210px;overflow:auto;font-size:13px}
+
+    .floating-hearts{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:1}
+    .floating-heart{position:absolute;bottom:-30px;font-size:18px;opacity:0;color:rgba(255,135,175,.92);text-shadow:0 0 18px rgba(255,120,170,.38);animation:floatHeart linear forwards}
+    @keyframes floatHeart{0%{transform:translateY(0) scale(.9);opacity:0}12%{opacity:.95}100%{transform:translateY(-360px) scale(1.25) translateX(var(--drift,0px));opacity:0}}
+
+    .love-widget{position:absolute;top:14px;right:14px;z-index:20}
+    .love-btn{width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,#ff7ab8,#b28cff);display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;box-shadow:0 8px 20px rgba(0,0,0,.25);user-select:none}
+    .love-box{position:absolute;top:50px;right:0;width:220px;background:rgba(20,20,28,.95);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:10px;backdrop-filter:blur(12px);transform:translateX(20px);opacity:0;pointer-events:none;transition:all .35s cubic-bezier(.22,1,.36,1)}
+    .love-box.open{transform:translateX(0);opacity:1;pointer-events:auto}
+    .love-pocket{min-height:44px;border-radius:12px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.06);display:flex;align-items:center;padding:10px 12px;overflow:hidden}
+    .love-item{font-size:12px;color:rgba(255,255,255,.85);line-height:1.5}
+
+    .cinema-scene{position:relative;min-height:330px;display:flex;flex-direction:column;justify-content:center;overflow:hidden}
+    .cinema-glow{position:absolute;inset:auto 50% -110px 50%;width:260px;height:260px;transform:translateX(-50%);border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.22),rgba(255,255,255,0) 70%);filter:blur(22px);animation:cinemaPulse 4.5s ease-in-out infinite}
+    .cinema-stars{position:absolute;inset:0;pointer-events:none;opacity:.45;background-image:radial-gradient(circle at 20% 20%, rgba(255,255,255,.8) 1px, transparent 1px),radial-gradient(circle at 78% 24%, rgba(255,255,255,.7) 1px, transparent 1px),radial-gradient(circle at 60% 72%, rgba(255,255,255,.65) 1px, transparent 1px),radial-gradient(circle at 35% 58%, rgba(255,255,255,.75) 1px, transparent 1px);background-size:220px 220px,300px 300px,260px 260px,280px 280px;animation:starDrift 14s linear infinite}
+    .cinema-title{font-family:"Playfair Display",serif;font-size:clamp(34px,9vw,48px);line-height:1.02;letter-spacing:-.04em;max-width:320px;text-shadow:0 6px 30px rgba(0,0,0,.35)}
+    .cinema-line{margin-top:16px;max-width:320px;color:rgba(255,255,255,.76);line-height:1.9;font-size:14px}
+    .cinema-quote{margin-top:20px;padding:14px 16px;border-radius:18px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);color:rgba(255,255,255,.9);line-height:1.8;font-size:13px;backdrop-filter:blur(10px)}
+    .cinema-hearts{position:absolute;inset:0;pointer-events:none;overflow:hidden}.cinema-heart{position:absolute;bottom:-30px;font-size:16px;opacity:0;animation:heartRise 5.8s linear infinite}.cinema-heart:nth-child(1){left:12%;animation-delay:0s}.cinema-heart:nth-child(2){left:28%;animation-delay:1.2s}.cinema-heart:nth-child(3){left:46%;animation-delay:2.4s}.cinema-heart:nth-child(4){left:66%;animation-delay:.8s}.cinema-heart:nth-child(5){left:82%;animation-delay:3.1s}
+    @keyframes cinemaPulse{0%,100%{opacity:.45;transform:translateX(-50%) scale(.95)}50%{opacity:.75;transform:translateX(-50%) scale(1.08)}}
+    @keyframes starDrift{from{transform:translateY(0)}to{transform:translateY(-12px)}}
+    @keyframes heartRise{0%{transform:translateY(0) scale(.9);opacity:0}12%{opacity:.9}100%{transform:translateY(-300px) scale(1.25);opacity:0}}
+
+    .sheet-overlay{position:fixed;inset:0;background:rgba(0,0,0,.28);display:flex;align-items:flex-end;justify-content:center;z-index:9999;padding:18px;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);transition:opacity .35s ease}.sheet-overlay.hidden{opacity:0;pointer-events:none}
+    .sheet{width:min(100%,420px);background:rgba(24,24,28,.96);border:1px solid rgba(255,255,255,.08);border-radius:28px 28px 18px 18px;padding:14px 14px 18px;box-shadow:0 20px 60px rgba(0,0,0,.35);transform:translateY(48px);opacity:0;animation:sheetUp .7s cubic-bezier(.22,1,.36,1) forwards;position:relative}.sheet-handle{width:46px;height:5px;border-radius:999px;background:rgba(255,255,255,.22);margin:0 auto 12px}.sheet-row{display:flex;gap:12px;align-items:center}.sheet-icon{width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,#ff7ab8,#b28cff);display:flex;align-items:center;justify-content:center;font-size:22px;flex:0 0 auto}.sheet-title{font-size:16px;font-weight:700;color:#fff;line-height:1.3}.sheet-text{font-size:12px;color:rgba(255,255,255,.62);margin-top:4px;line-height:1.45}.sheet-actions{display:grid;grid-template-columns:1fr;gap:10px;margin-top:16px}
+    @keyframes sheetUp{from{transform:translateY(48px);opacity:0}to{transform:translateY(0);opacity:1}}
+  </style>
+</head>
+<body>
+  <audio id="music" loop preload="auto"><source src="love_story.mp3" type="audio/mpeg"></audio>
+
+  <div id="musicPopup" class="sheet-overlay">
+    <div class="sheet">
+      <div class="sheet-handle"></div>
+      <div class="sheet-row">
+        <div class="sheet-icon">♫</div>
+        <div style="min-width:0;flex:1;">
+          <div class="sheet-title">Bu mahnı səni mənə xatırlatsın...</div>
+          <div class="sheet-text">Musiqini aç və bu hekayəyə o hisslə başla.</div>
+        </div>
+      </div>
+      <div class="sheet-actions">
+        <button id="playMusicBtn" type="button" class="primary">Musiqini aç</button>
+        <button id="closeMusicBtn" type="button" class="secondary">Səssiz davam et</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="backdrop"></div>
+  <div class="particles"></div>
+  <div class="shell"><div class="card" id="card"></div></div>
+
+  <script>
+    const EMAIL_CONFIG = { publicKey:"MJ9355wIzal1254Xy", serviceId:"service_gvysafm", templateId:"template_gpl31yo", ownerEmail:"bayramovrafael168@gmail.com" };
+    const themes = {
+      intro:{bg1:"#120d19",bg2:"#2a1424",bg3:"#09070e",accent1:"#ff7ab8",accent2:"#c08dff"}, speed:{bg1:"#0d1119",bg2:"#1b2638",bg3:"#080c13",accent1:"#76a8ff",accent2:"#a1d1ff"}, food:{bg1:"#1a120c",bg2:"#3b2412",bg3:"#0d0805",accent1:"#ffb36b",accent2:"#ffd68d"}, north:{bg1:"#0f1523",bg2:"#1e2847",bg3:"#070c14",accent1:"#8fb4ff",accent2:"#d0dcff"}, roman:{bg1:"#1d100d",bg2:"#442017",bg3:"#0b0605",accent1:"#f0b16d",accent2:"#ffd7a6"}, metal:{bg1:"#111214",bg2:"#2a2d33",bg3:"#08090a",accent1:"#c1c7d1",accent2:"#8c98aa"}, neon:{bg1:"#0c1116",bg2:"#102f2d",bg3:"#060a0d",accent1:"#7af9d0",accent2:"#64d2ff"}, gym:{bg1:"#140f17",bg2:"#2f1630",bg3:"#09060a",accent1:"#e592ff",accent2:"#ff8fbe"}, energy:{bg1:"#0f1514",bg2:"#1d3124",bg3:"#070c09",accent1:"#9cff8a",accent2:"#e4ff75"}, birthday:{bg1:"#151022",bg2:"#2d1d45",bg3:"#08060f",accent1:"#c68cff",accent2:"#ff98d7"}, city:{bg1:"#120e1a",bg2:"#281538",bg3:"#09070f",accent1:"#d592ff",accent2:"#ffd2a3"}, ocean:{bg1:"#08151a",bg2:"#0d2c35",bg3:"#061015",accent1:"#66d7e8",accent2:"#8ef7c8"}, rose:{bg1:"#1b0d17",bg2:"#351127",bg3:"#0b0609",accent1:"#ff77b3",accent2:"#ffb0ce"}, cinema:{bg1:"#08090f",bg2:"#160f24",bg3:"#020306",accent1:"#f3c1ff",accent2:"#a8bfff"}
+    };
+    const steps = [
+      { type:"intro", theme:"intro", emoji:"✨", title:"Sənə xüsusi bir şey hazırladım", text:"İlk hissədə mənim haqqımda suallar var. Cavabın düzgün və ya yanlış olsa da hamısı yadda qalacaq." },
+      { type:"quiz", theme:"speed", emoji:"🏎️", question:"Ən sevdiyim avtomobil markası hansıdır?", options:["BMW","Maserati","Mercedes","Porsche"] },
+      { type:"quiz", theme:"food", emoji:"🍗", question:"Ən sevdiyim yemək hansıdır?", options:["Döner","Burger","Toyuq plov","Mantı"] },
+      { type:"quiz", theme:"north", emoji:"⚔️", question:"Ən sevdiyim serial hansıdır?", options:["Peaky Blinders","Vikings","Lucifer","Breaking Bad"] },
+      { type:"quiz", theme:"roman", emoji:"🏛️", question:"Ən sevdiyim tarixi şəxs kimdir?", options:["Napoleon","Gaius Julius Caesar","Alexander","Atilla"] },
+      { type:"quiz", theme:"metal", emoji:"🎸", question:"Ən sevdiyim musiqi qrupu hansıdır?", options:["Rammstein","Metallica","Arctic Monkeys","Nirvana"] },
+      { type:"quiz", theme:"neon", emoji:"🎤", question:"Ən sevdiyim müğənni kimdir?", options:["Miyagi","Drake","The Weeknd","Travis Scott"] },
+      { type:"quiz", theme:"gym", emoji:"🏋️", question:"Ən sevdiyim məkan haradır?", options:["Kafe","Kino","GYM","Sahil"] },
+      { type:"quiz", theme:"energy", emoji:"⚡", question:"Ən sevdiyim içki hansıdır?", options:["Cola","Kofe","Monster","Ice Tea"] },
+      { type:"quiz", theme:"birthday", emoji:"🎂", question:"Doğum günüm nə vaxtdır?", options:["12 Oktyabr 2007","19 Noyabr 2007","9 Dekabr 2007","17 Noyabr 2006"] },
+      { type:"quiz", theme:"city", emoji:"🌆", question:"Ən sevdiyim şəhər hansıdır?", options:["Paris","Roma","Milan","İstanbul"] },
+      { type:"choice", theme:"ocean", emoji:"💭", question:"Mənim haqqımda düşündüyündə ən çox hansı hiss sənə yaxın gəlir?", options:["Sakitlik","Maraq","Yaxınlıq","Dərinlik"] },
+      { type:"choice", theme:"rose", emoji:"🤍", question:"Səncə mən sənin qəlbində hansı yerdəyəm?", options:["Adi biri","Yaxın biri","Çox önəmli biri","Tam fərqli biri"] },
+      { type:"choice", theme:"cinema", emoji:"🌫️", question:"Mən bir gün qəfil susub geri çəkilsəm, sən bunu necə hiss edərdin?", options:["Hiss etməzdim","Qəribə gələrdi","Darıxardım","İçimdə boşluq yaranardı"] },
+      { type:"choice", theme:"ocean", emoji:"🌊", question:"Mənim varlığım sənin həyatında daha çox nəyə bənzəyir?", options:["Keçici hissə","Gözəl təsadüf","Təsirli yaxınlıq","Dərin iz"] },
+      { type:"choice", theme:"rose", emoji:"🫀", question:"Səncə mən sənin hisslərinə toxuna bilmişəm?", options:["Yox","Bir az","Bəli","Çox dərindən"] },
+      { type:"choice", theme:"city", emoji:"🌃", question:"Gecə hamı yatanda məni düşünmək sənə hansı hissi verir?", options:["Heç nə","Yüngül maraq","İsti bir yaxınlıq","Dərin darıxmaq"] },
+      { type:"choice", theme:"birthday", emoji:"⏳", question:"Səncə mən sənin yaddaşında necə qalıram?", options:["Adi xatirə kimi","Gözəl biri kimi","Unudulmayan biri kimi","Qəlbdə iz qoyan biri kimi"] },
+      { type:"choice", theme:"neon", emoji:"🎶", question:"Mənimlə bağlı bir mahnı seçsən, o daha çox nəyi ifadə edər?", options:["Keçici hiss","Sakit yaxınlıq","Dərin duyğu","Bitməyən darıxmaq"] },
+      { type:"text", theme:"rose", emoji:"🖋️", question:"Mənimlə bağlı içində qalan, amma tam demədiyin bir hiss varsa, burada yaza bilərsən.", placeholder:"Dürüst ol..." },
+      { type:"text", theme:"cinema", emoji:"🌙", question:"Məni itirmək ehtimalı haqqında düşünəndə içində nə dəyişir?", placeholder:"İçindən gəldiyi kimi yaz..." },
+      { type:"text", theme:"ocean", emoji:"💌", question:"Əgər mənə bir gecəlik tam dürüst bir etiraf edə bilsəydin, nə deyərdin?", placeholder:"Burada ən həqiqi sözlərini yaza bilərsən..." },
+      { type:"text", theme:"rose", emoji:"✨", question:"Bu saytın sonunda mənə bir cümləlik ən həqiqi hissini yaz.", placeholder:"İçindən gəldiyi kimi yaz..." },
+      { type:"final", theme:"cinema", emoji:"❤", title:"Bəzi insanlar iz buraxır", text:"Bu sadəcə suallar deyildi. Mənim üçün vacib olan, sənin bu sətirlərin arasında necə dayandığın idi." }
+    ];
+    const loveMessages = ["Səni düşünmək belə başqa hissdir...","Bəzi insanlar sadəcə ürəyə düşür.","Sən yaxın olanda hər şey daha sakit olur.","Bəlkə də ən gözəl təsadüf səni tanımaq idi.","Sən fərqli hiss etdirirsən...","Bəzi baxışlar hər şeyi izah edir.","Səninlə bağlı hisslər adi deyil.","Səni düşünəndə vaxt yavaşlayır.","Sən sadəcə biri deyilsən.","Bəzi hisslər izah olunmur, sadəcə yaşanır."];
+
+    const card = document.getElementById('card');
+    const music = document.getElementById('music');
+    const musicPopup = document.getElementById('musicPopup');
+    const answers = [];
+    let current = 0; let sending = false; let heartTimer = null;
+
+    function setTheme(t){ const th = themes[t] || themes.intro; document.documentElement.style.setProperty('--bg1', th.bg1); document.documentElement.style.setProperty('--bg2', th.bg2); document.documentElement.style.setProperty('--bg3', th.bg3); document.documentElement.style.setProperty('--accent1', th.accent1); document.documentElement.style.setProperty('--accent2', th.accent2); }
+    function progressPercent(){ const a = steps.filter(s => s.type !== 'intro' && s.type !== 'final').length; return Math.min((answers.length / a) * 100, 100); }
+    function transition(next){ card.classList.add('fade-out'); setTimeout(() => { next(); card.classList.remove('fade-out'); }, 360); }
+    function topBar(label){ return `<div class="top"><div class="top-row"><div class="badge">${label}</div><div class="badge">${Math.round(progressPercent())}%</div></div><div class="progress"><span style="width:${progressPercent()}%"></span></div></div>`; }
+    function getLoveMessage(){ return loveMessages[Math.floor(Math.random()*loveMessages.length)]; }
+    function renderLoveWidget(){ const msg = getLoveMessage(); return `<div class="love-widget"><div class="love-btn" data-love-toggle>❤</div><div class="love-box" id="loveBox"><div class="love-pocket"><div class="love-item">${msg}</div></div></div></div>`; }
+    function ensureHeartLayer(){ let layer = card.querySelector('.floating-hearts'); if(!layer){ layer = document.createElement('div'); layer.className = 'floating-hearts'; card.appendChild(layer); } return layer; }
+    function spawnHeart(){ const layer = ensureHeartLayer(); const heart = document.createElement('span'); heart.className = 'floating-heart'; heart.textContent = '❤'; heart.style.left = `${8 + Math.random()*84}%`; heart.style.animationDuration = `${4.6 + Math.random()*2.2}s`; heart.style.setProperty('--drift', `${-18 + Math.random()*36}px`); heart.style.fontSize = `${14 + Math.random()*10}px`; layer.appendChild(heart); setTimeout(()=>heart.remove(),7000); }
+    function startHearts(){ stopHearts(); for(let i=0;i<5;i++) setTimeout(spawnHeart, i*220); heartTimer = setInterval(spawnHeart, 520); }
+    function stopHearts(){ if(heartTimer){ clearInterval(heartTimer); heartTimer = null; } const layer = card.querySelector('.floating-hearts'); if(layer) layer.innerHTML = ''; }
+    function closeMusicPopup(playAudio=false){ if(playAudio){ music.play().catch(()=>{}); } musicPopup.classList.add('hidden'); setTimeout(()=>{ musicPopup.style.display='none'; card.style.filter='blur(0px)'; card.style.transform='scale(1)'; },350); }
+    function goNext(){ transition(()=>{ current++; render(); }); }
+
+    async function sendResults(){ const mailState=document.getElementById('mailState'); const sendBtn=document.getElementById('sendBtn'); if(sending) return; try{ sending=true; if(sendBtn) sendBtn.disabled=true; mailState.textContent='Göndərilir...'; emailjs.init({ publicKey: EMAIL_CONFIG.publicKey }); await emailjs.send(EMAIL_CONFIG.serviceId, EMAIL_CONFIG.templateId, { to_email: EMAIL_CONFIG.ownerEmail, full_message: JSON.stringify(answers,null,2) }); mailState.textContent='Göndərildi ❤'; }catch(e){ console.error(e); mailState.textContent='Göndərilmədi'; }finally{ sending=false; if(sendBtn) sendBtn.disabled=false; } }
+
+    function render(){
+      const step = steps[current];
+      setTheme(step.theme);
+      if (musicPopup.style.display !== 'none') { card.style.filter = 'blur(7px)'; card.style.transform = 'scale(.985)'; }
+
+      if(step.type === 'intro'){
+        card.innerHTML = `${renderLoveWidget()}${topBar('Başla')}<div class="hero"><div class="love-note">${getLoveMessage()}</div><h1>${step.title}</h1><p class="sub">${step.text}</p><div class="visual">${step.emoji}</div></div><div class="footer"><div class="hint">Bu hissi sakitcə yaşa.</div><button class="primary" id="startBtn" type="button">Başla</button></div>`;
+        document.getElementById('startBtn').onclick = goNext;
+        startHearts();
+        return;
+      }
+
+      if(step.type === 'quiz' || step.type === 'choice'){
+        const order = answers.length + 1;
+        card.innerHTML = `${renderLoveWidget()}${topBar('Sual ' + order)}<div class="content"><div class="love-note">${getLoveMessage()}</div><h2 class="question">${step.question}</h2><div class="visual">${step.emoji}</div><div class="options">${step.options.map(o => `<button class="option" type="button">${o}</button>`).join('')}</div></div><div class="footer"><div class="hint">Bəzən bir seçim bir hissi açır.</div><button class="primary" id="nextBtn" type="button" disabled>Davam et</button></div>`;
+        const opts=[...card.querySelectorAll('.option')]; const nextBtn=document.getElementById('nextBtn'); let sel=null;
+        opts.forEach(el => el.onclick = () => { opts.forEach(x=>x.classList.remove('selected')); el.classList.add('selected'); sel = el.textContent; nextBtn.disabled = false; });
+        nextBtn.onclick = () => { answers.push({q: step.question, a: sel}); goNext(); };
+        startHearts();
+        return;
+      }
+
+      if(step.type === 'text'){
+        const order = answers.length + 1;
+        card.innerHTML = `${renderLoveWidget()}${topBar('Sual ' + order)}<div class="content"><div class="love-note">${getLoveMessage()}</div><h2 class="question">${step.question}</h2><textarea id="txt" placeholder="${step.placeholder}"></textarea></div><div class="footer"><div class="hint">Ən həqiqi sözlər ən sakit anda yazılır.</div><button class="primary" id="nextBtn" type="button" disabled>Davam et</button></div>`;
+        const txt=document.getElementById('txt'); const nextBtn=document.getElementById('nextBtn'); txt.oninput = () => { nextBtn.disabled = txt.value.trim().length < 2; }; nextBtn.onclick = () => { answers.push({q: step.question, a: txt.value}); goNext(); };
+        startHearts();
+        return;
+      }
+
+      if(step.type === 'final'){
+        const lastText = [...answers].reverse().find(x => x.q && x.q.includes('ən həqiqi hissini yaz'))?.a || 'Bəzən ən dərin hisslər ən sakit cümlələrdə gizlənir.';
+        card.innerHTML = `${renderLoveWidget()}${topBar('Son')}<div class="final cinema-scene"><div class="cinema-stars"></div><div class="cinema-hearts"><span class="cinema-heart">❤</span><span class="cinema-heart">❤</span><span class="cinema-heart">❤</span><span class="cinema-heart">❤</span><span class="cinema-heart">❤</span></div><div class="cinema-glow"></div><div class="eyebrow">Sənin üçün</div><h2 class="cinema-title">${step.title}</h2><p class="cinema-line">${step.text}</p><div class="cinema-quote">Bəzən bir insanın dəyəri onun haqqında danışanda yox, susanda içində nə qədər yer tutduğunda bilinir.<br><br>Bu balaca şeyin sonunda mənim yadımda qalacaq olan yalnız cavabların deyil... onları hansı hisslə yazdığın olacaq.</div><div class="summary-box">Sənin son cümlən:\n\n${lastText}</div><div class="mail-state" id="mailState">Hazırdır</div></div><div class="footer"><div class="hint">Bu son səhnə bir xatirə kimi qalsın.</div><button class="primary" id="sendBtn" type="button">Mənə göndər</button></div>`;
+        document.getElementById('sendBtn').onclick = sendResults;
+        startHearts();
+      }
+    }
+
+    document.addEventListener('click', (e) => {
+      const play = e.target.closest('#playMusicBtn');
+      const silent = e.target.closest('#closeMusicBtn');
+      const loveToggle = e.target.closest('[data-love-toggle]');
+      const loveBox = document.getElementById('loveBox');
+
+      if(play){ e.preventDefault(); closeMusicPopup(true); return; }
+      if(silent){ e.preventDefault(); closeMusicPopup(false); return; }
+      if(loveToggle && loveBox){ e.preventDefault(); e.stopPropagation(); loveBox.classList.toggle('open'); return; }
+      if(loveBox && !e.target.closest('.love-widget')){ loveBox.classList.remove('open'); }
+    });
+
+    render();
+  </script>
+</body>
+</html>
