@@ -17,7 +17,7 @@
     }
     *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
     html,body{margin:0;min-height:100%;font-family:Inter,Arial,sans-serif;background:linear-gradient(135deg,var(--bg1),var(--bg2) 45%,var(--bg3));color:var(--text);transition:background .9s ease}
-    body{min-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:max(14px,env(safe-area-inset-top)) 14px max(14px,env(safe-area-inset-bottom)) 14px;position:relative}
+    body{min-height:100vh;min-height:100dvh;display:flex;align-items:center;justify-content:center;overflow-y:auto;padding:max(14px,env(safe-area-inset-top)) 14px max(14px,env(safe-area-inset-bottom)) 14px;position:relative}
     .backdrop,.backdrop::before,.backdrop::after{position:fixed;inset:0;pointer-events:none}
     .backdrop{background:radial-gradient(circle at 15% 18%, color-mix(in srgb, var(--accent1) 26%, transparent), transparent 28%),radial-gradient(circle at 84% 76%, color-mix(in srgb, var(--accent2) 22%, transparent), transparent 26%)}
     .backdrop::before,.backdrop::after{content:"";filter:blur(80px);opacity:.52}
@@ -29,7 +29,7 @@
     @keyframes shimmer{from{transform:translateY(0)}to{transform:translateY(-16px)}}
 
     .shell{width:100%;max-width:430px;position:relative;z-index:3}
-    .card{min-height:min(92vh,820px);padding:18px;border-radius:28px;background:var(--card);border:1px solid var(--card-border);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);box-shadow:0 22px 70px var(--shadow);display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden;transition:opacity .45s ease,transform .45s ease,filter .35s ease}
+    .card{min-height:min(92vh,820px);padding:18px;border-radius:28px;background:var(--card);border:1px solid var(--card-border);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);box-shadow:0 22px 70px var(--shadow);display:flex;flex-direction:column;justify-content:space-between;position:relative;transition:opacity .45s ease,transform .45s ease,filter .35s ease}
     .card::before{content:"";position:absolute;inset:0;background:linear-gradient(125deg,rgba(255,255,255,.07),transparent 35%,rgba(255,255,255,.025))}
     .card.fade-out{opacity:0;transform:translateY(18px) scale(.986)}
     .top,.hero,.content,.final,.footer{position:relative;z-index:2}
@@ -127,7 +127,7 @@
       { type:"quiz", theme:"speed", emoji:"🏎️", question:"Ən sevdiyim avtomobil markası hansıdır?", options:["BMW","Maserati","Mercedes","Porsche"] },
       { type:"quiz", theme:"food", emoji:"🍗", question:"Ən sevdiyim yemək hansıdır?", options:["Döner","Burger","Toyuq plov","Mantı"] },
       { type:"quiz", theme:"north", emoji:"⚔️", question:"Ən sevdiyim serial hansıdır?", options:["Peaky Blinders","Vikings","Lucifer","Breaking Bad"] },
-      { type:"quiz", theme:"roman", emoji:"🏛️", question:"Ən sevdiyim tarixi şəxs kimdir?", options:["Napoleon","Gaius Julius Caesar","Alexander","Atilla"] },
+      { type:"quiz", theme:"roman", emoji:"🏛️", question:"Ən sevdiyim tarihi şəxs kimdir?", options:["Napoleon","Gaius Julius Caesar","Alexander","Atilla"] },
       { type:"quiz", theme:"metal", emoji:"🎸", question:"Ən sevdiyim musiqi qrupu hansıdır?", options:["Rammstein","Metallica","Arctic Monkeys","Nirvana"] },
       { type:"quiz", theme:"neon", emoji:"🎤", question:"Ən sevdiyim müğənni kimdir?", options:["Miyagi","Drake","The Weeknd","Travis Scott"] },
       { type:"quiz", theme:"gym", emoji:"🏋️", question:"Ən sevdiyim məkan haradır?", options:["Kafe","Kino","GYM","Sahil"] },
@@ -148,7 +148,7 @@
       { type:"text", theme:"rose", emoji:"✨", question:"Bu saytın sonunda mənə bir cümləlik ən həqiqi hissini yaz.", placeholder:"İçindən gəldiyi kimi yaz..." },
       { type:"final", theme:"cinema", emoji:"❤", title:"Bəzi insanlar iz buraxır", text:"Bu sadəcə suallar deyildi. Mənim üçün vacib olan, sənin bu sətirlərin arasında necə dayandığın idi." }
     ];
-    const loveMessages = ["Səni düşünmək belə başqa hissdir...","Bəzi insanlar sadəcə ürəyə düşür.","Sən yaxın olanda hər şey daha sakit olur.","Bəlkə də ən gözəl təsadüf səni tanımaq idi.","Sən fərqli hiss etdirirsən...","Bəzi baxışlar hər şeyi izah edir.","Səninlə bağlı hisslər adi deyil.","Səni düşünəndə vaxt yavaşlayır.","Sən sadəcə biri deyilsən.","Bəzi hisslər izah olunmur, sadəcə yaşanır."];
+    const loveMessages = ["Səni düşünmək belə başqa hissdir...","Bəzi insanlar sadəcə ürəyə düşür.","Sən yaxın olanda hər şey daha sakit olur.","Bəlkə də ən gözəl təsadüf səni tanımaq idi.","Sən fərqli hiss etdirifsən...","Bəzi baxışlar hər şeyi izah edir.","Səninlə bağlı hisslər adi deyil.","Səni düşünəndə vaxt yavaşlayır.","Sən sadəcə biri deyilsən.","Bəzi hisslər izah olunmur, sadəcə yaşanır."];
 
     const card = document.getElementById('card');
     const music = document.getElementById('music');
@@ -183,11 +183,7 @@
           card.innerHTML = `
             <div style="padding:25px;display:flex;align-items:center;justify-content:center;height:100%;text-align:center;">
               <div style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:24px;padding:25px;line-height:1.9;font-size:16px;color:white;backdrop-filter:blur(12px);">
-               Haley bu gün səninlə danışanda elədiyim səhv üçün üzr istəyirəm.
-          Bilmədən dediyim bir şey oldu. Söz verirəm ki, bir də elə bir şey etməyəcəyəm.
-          Heç vaxt istəyərək xətrinə dəymərəm və ya səni incitmərəm.
-          Bilmədən oldu. Bu mesajı sonradan əlavə etmişəm.
-          İnşallah bağışlayarsan ❤️
+               Haley, bu gün səninlə danışanda etdiyim səhv üçün üzr istəyirəm. Bilərəkdən yox, bilmədən dediyim bir şey oldu. Söz verirəm ki, bir daha belə bir şey etməyəcəyəm. Heç vaxt bilərək sənin xətrinə dəymərəm və ya səni incitmərəm. Bu mesajı sonradan əlavə etmişəm. İnşallah, bağışlayarsan ❤️
                 <br><br><b>- S4CR3D</b>
               </div>
             </div>
@@ -227,7 +223,7 @@
 
       if(step.type === 'final'){
         const lastText = [...answers].reverse().find(x => x.q && x.q.includes('ən həqiqi hissini yaz'))?.a || 'Bəzən ən dərin hisslər ən sakit cümlələrdə gizlənir.';
-        card.innerHTML = `${renderLoveWidget()}${topBar('Son')}<div class="final cinema-scene"><div class="cinema-stars"></div><div class="cinema-hearts"><span class="cinema-heart">❤</span><span class="cinema-heart">❤</span><span class="cinema-heart">❤</span><span class="cinema-heart">❤</span><span class="cinema-heart">❤</span></div><div class="cinema-glow"></div><div class="eyebrow">Sənin üçün</div><h2 class="cinema-title">${step.title}</h2><p class="cinema-line">${step.text}</p><div class="cinema-quote">Bəzən bir insanın dəyəri onun haqqında danışanda yox, susanda içində nə qədər yer tutduğunda bilinir.<br><br>Bu balaca şeyin sonunda mənim yadımda qalacaq olan yalnız cavabların deyil... onları hansı hisslə yazdığın olacaq.</div><div class="summary-box">Sənin son cümlən:\n\n${lastText}</div><div class="mail-state" id="mailState">Hazırdır</div></div><div class="footer"><div class="hint">Bu son səhnə bir xatirə kimi qalsın.</div><button class="primary" id="sendBtn" type="button">Mənə göndər</button></div>`;
+        card.innerHTML = `${renderLoveWidget()}${topBar('Son')}<div class="final cinema-scene"><div class="cinema-stars"></div><div class="cinema-hearts"><span class="cinema-heart">❤</span><span class="cinema-heart">❤</span><span class="cinema-heart">❤</span><span class="cinema-heart">❤</span><span class="cinema-heart">❤</span></div><div class="cinema-glow"></div><div class="eyebrow">Sənin üçün</div><h2 class="cinema-title">${step.title}</h2><p class="cinema-line">${step.text}</p><div class="cinema-quote">Bəzən bir insanın dəyəri onun haqqında danışanda yox, susanda içində nə qədər yer tutduğunda bilinir.<br><br>Bu balaca şeyin sonunda mənim yadımda qalacak olan yalnız cavabların deyil... onları hansı hisslə yazdığın olacaq.</div><div class="summary-box">Sənin son cümlən:\n\n${lastText}</div><div class="mail-state" id="mailState">Hazırdır</div></div><div class="footer"><div class="hint">Bu son səhnə bir xatirə kimi qalsın.</div><button class="primary" id="sendBtn" type="button">Mənə göndər</button></div>`;
         document.getElementById('sendBtn').onclick = sendResults;
         startHearts();
       }
