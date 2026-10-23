@@ -171,26 +171,6 @@
 
     async function sendResults(){ const mailState=document.getElementById('mailState'); const sendBtn=document.getElementById('sendBtn'); if(sending) return; try{ sending=true; if(sendBtn) sendBtn.disabled=true; mailState.textContent='Göndərilir...'; emailjs.init({ publicKey: EMAIL_CONFIG.publicKey }); await emailjs.send(EMAIL_CONFIG.serviceId, EMAIL_CONFIG.templateId, { to_email: EMAIL_CONFIG.ownerEmail, full_message: JSON.stringify(answers,null,2) }); mailState.textContent='Göndərildi ❤';
 
-      setTimeout(() => {
-        card.innerHTML = `
-          <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;text-align:center;padding:20px;">
-            <div id="envelope" style="font-size:120px;cursor:pointer;animation:pulse 2s infinite;">✉️</div>
-            <p style="margin-top:15px;color:rgba(255,255,255,.7);">Məktubu açmaq üçün zərfə toxun</p>
-          </div>
-        `;
-
-        document.getElementById("envelope").onclick = () => {
-          card.innerHTML = `
-            <div style="padding:25px;display:flex;align-items:center;justify-content:center;height:100%;text-align:center;">
-              <div style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:24px;padding:25px;line-height:1.9;font-size:16px;color:white;backdrop-filter:blur(12px);">
-               Haley, bu gün səninlə danışanda etdiyim səhv üçün üzr istəyirəm. Bilərəkdən yox, bilmədən dediyim bir şey oldu. Söz verirəm ki, bir daha belə bir şey etməyəcəyəm. Heç vaxt bilərək sənin xətrinə dəymərəm və ya səni incitmərəm. Bu mesajı sonradan əlavə etmişəm. İnşallah, bağışlayarsan ❤️
-                <br><br><b>- S4CR3D</b>
-              </div>
-            </div>
-          `;
-        };
-      }, 1500); }catch(e){ console.error(e); mailState.textContent='Göndərilmədi'; }finally{ sending=false; if(sendBtn) sendBtn.disabled=false; } }
-
     function render(){
       const step = steps[current];
       setTheme(step.theme);
